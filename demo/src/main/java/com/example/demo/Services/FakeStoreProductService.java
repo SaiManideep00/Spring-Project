@@ -3,6 +3,7 @@ package com.example.demo.Services;
 import com.example.demo.Models.Category;
 import com.example.demo.Models.Product;
 import com.example.demo.dtos.FakeStoreProduct;
+import com.example.demo.exceptions.ProductNotFoundException;
 import org.springframework.http.HttpMethod;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.HttpMessageConverterExtractor;
@@ -34,10 +35,11 @@ public class FakeStoreProductService implements ProductService {
         return p;
     }
     @Override
-    public Product getProductById(Long id) {
+    public Product getProductById(Long id) throws ProductNotFoundException {
+
         FakeStoreProduct fakeStoreProduct=restTemplate.getForObject("https://fakestoreapi.com/products/"+id, FakeStoreProduct.class);
         if(fakeStoreProduct==null)
-            return null;
+            throw new ProductNotFoundException(id,"Product Not found with provided id");
 
         return convertDtoToModel(fakeStoreProduct);
         
