@@ -9,12 +9,8 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Data
-@AllArgsConstructor
-@NoArgsConstructor
 @Entity
-public class Category {
-    @Id
-    private Long id;
+public class Category extends BaseModel {
     private String description;
 
 }

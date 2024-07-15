@@ -24,7 +24,7 @@ public class FakeStoreProductService implements ProductService {
     private Product convertDtoToModel(FakeStoreProduct fakeStoreProduct)
     {
         Product p=new Product();
-        p.setId(fakeStoreProduct.id());
+        p .setId(fakeStoreProduct.id());
         p.setTitle(fakeStoreProduct.title());
         p.setDescription(fakeStoreProduct.description());
         p.setPrice(fakeStoreProduct.price());
