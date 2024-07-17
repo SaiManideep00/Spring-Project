@@ -15,8 +15,7 @@ public class ExceptionHandlers {
     {
         
         ProductNotFoundDto productNotFoundDto=new ProductNotFoundDto();
-        productNotFoundDto.setId(productNotFoundException.getId());
-        productNotFoundDto.setMessage(productNotFoundException.getMessage());
+        productNotFoundDto.setMessage(productNotFoundException.getMessage()+" "+productNotFoundException.getId());
         return new ResponseEntity<>(productNotFoundDto,HttpStatus.BAD_REQUEST);
     }
     @ExceptionHandler(ArithmeticException.class)

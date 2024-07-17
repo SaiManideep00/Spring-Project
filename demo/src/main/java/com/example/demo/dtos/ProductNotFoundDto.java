@@ -10,9 +10,4 @@ import lombok.NoArgsConstructor;
 
 public class ProductNotFoundDto {
     private String message;
-    private Long id;
-
-
-
-
 }

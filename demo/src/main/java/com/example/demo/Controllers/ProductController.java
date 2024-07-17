@@ -2,11 +2,13 @@ package com.example.demo.Controllers;
 
 import com.example.demo.Models.Product;
 import com.example.demo.Services.ProductService;
+import com.example.demo.dtos.ProductDTO;
 import com.example.demo.exceptions.ProductNotFoundException;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.method.P;
+import org.springframework.security.core.parameters.P;
 import org.springframework.web.bind.annotation.*;
 
 
@@ -17,29 +19,40 @@ import java.util.*;
 @RequestMapping("/products")
 public class ProductController {
     private ProductService productService;
-    ProductController(ProductService productService)
+    ProductController(@Qualifier("selfServiceProduct") ProductService productService)
     {
         this.productService=productService;
     }
     @GetMapping()
-    public List<Product> getAllProducts()
+    public List<ProductDTO> getAllProducts()
     {
-        return  productService.getAllProducts();
+             return  productService.getAllProducts();
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Product> getProductById(@PathVariable("id") Long id) throws ProductNotFoundException {
+    public ProductDTO getProductById(@PathVariable("id") Long id) throws ProductNotFoundException {
 
-        Product product=productService.getProductById(id);
-        ResponseEntity<Product> response;
-            response=new ResponseEntity<>(product,HttpStatus.OK);
-        return response;
+    return productService.getProductById(id);
 
     }
 
     @PutMapping("/{id}")
-    public Product replaceProductById(@PathVariable("id") Long id, @RequestBody Product product)
+    public ProductDTO replaceProductById(@PathVariable("id") Long id, @RequestBody Product product) throws ProductNotFoundException {
+        return productService.replaceProduct(id,product);
+    }
+
+    @PostMapping()
+    public Product createProduct(@RequestBody Product product)
     {
-        return productService.replaceProductById(id,product);
+        return productService.createProduct(product);
+    }
+    @DeleteMapping("/{id}")
+    public void deleteProduct(@PathVariable("id") Long id) throws ProductNotFoundException {
+        productService.deleteProduct(id);
+    }
+
+    @PatchMapping("/{id}")
+    public ProductDTO updateProduct(@PathVariable("id") Long id, @RequestBody Map<String,Object> values) throws ProductNotFoundException {
+        return productService.updateProduct(id,values);
     }
 }
