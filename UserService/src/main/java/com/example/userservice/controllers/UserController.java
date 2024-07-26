@@ -5,6 +5,7 @@ import com.example.userservice.dtos.LogoutRequestDto;
 import com.example.userservice.dtos.SignUpRequestDto;
 import com.example.userservice.dtos.UserDto;
 import com.example.userservice.models.Token;
+import com.example.userservice.models.User;
 import com.example.userservice.services.UserService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -20,7 +21,9 @@ public class UserController {
     @PostMapping("/signup")
     public UserDto signUpUser(@RequestBody SignUpRequestDto request)
     {
-        return null;
+        User user=userService.signUp(request.getEmail(),request.getName(),request.getPassword());
+
+        return UserDto.from(user);
     }
 
     @PostMapping("/login")

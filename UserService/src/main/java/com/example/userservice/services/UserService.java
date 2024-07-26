@@ -4,6 +4,7 @@ import com.example.userservice.dtos.SignUpRequestDto;
 import com.example.userservice.dtos.UserDto;
 import com.example.userservice.models.Token;
 import com.example.userservice.models.User;
+import com.example.userservice.repositories.UserRepository;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -11,9 +12,11 @@ import org.springframework.web.bind.annotation.RequestBody;
 @Service
 public class UserService {
     private BCryptPasswordEncoder bCryptPasswordEncoder;
-    UserService(BCryptPasswordEncoder bCryptPasswordEncoder)
+    private UserRepository userRepository;
+    UserService(BCryptPasswordEncoder bCryptPasswordEncoder,UserRepository userRepository)
     {
         this.bCryptPasswordEncoder=bCryptPasswordEncoder;
+        this.userRepository=userRepository;
     }
     public User signUp(String email,String name,String password)
     {
@@ -21,8 +24,9 @@ public class UserService {
         user.setEmail(email);
         user.setName(name);
         user.setHashPassword(bCryptPasswordEncoder.encode(password));
+        user.setEmailVerified(true);
 
-        return null;
+        return userRepository.save(user);
     }
     public Token login(String email, String password)
     {
