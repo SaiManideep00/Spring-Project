@@ -16,6 +16,8 @@ public class UserDto {
 
     public static UserDto from(User user)
     {
+        if(user==null)
+            return null;
         UserDto userDto=new UserDto();
         userDto.setEmail(user.getEmail());
         userDto.setName(user.getName());

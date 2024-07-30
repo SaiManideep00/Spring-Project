@@ -7,6 +7,8 @@ import com.example.userservice.dtos.UserDto;
 import com.example.userservice.models.Token;
 import com.example.userservice.models.User;
 import com.example.userservice.services.UserService;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -29,18 +31,21 @@ public class UserController {
     @PostMapping("/login")
     public Token loginUser(@RequestBody LoginRequestDto loginRequestDto)
     {
-        return null;
+
+        return userService.login(loginRequestDto.getEmail(),loginRequestDto.getPassword());
     }
     @PostMapping("/logout")
     public ResponseEntity<Void> logoutUser(@RequestBody LogoutRequestDto logoutRequestDto)
     {
-        return null;
+        userService.logout(logoutRequestDto.getToken());
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 
     @GetMapping ("/validate/{token}")
-    public UserDto validateUser(@PathVariable String token)
+    public UserDto validateToken(@PathVariable String token)
     {
-        return null;
+        User user=userService.validateToken(token);
+        return UserDto.from(user);
     }
 
     @GetMapping("/users/{id}")
