@@ -2,7 +2,9 @@ package com.example.demo.Controllers;
 
 import com.example.demo.Models.Product;
 import com.example.demo.Services.ProductService;
+import com.example.demo.commons.AuthCommons;
 import com.example.demo.dtos.ProductDTO;
+import com.example.demo.dtos.UserDto;
 import com.example.demo.exceptions.ProductNotFoundException;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.HttpStatus;
@@ -19,9 +21,11 @@ import java.util.*;
 @RequestMapping("/products")
 public class ProductController {
     private ProductService productService;
-    ProductController(@Qualifier("selfServiceProduct") ProductService productService)
+    private AuthCommons authCommons;
+    ProductController(@Qualifier("selfServiceProduct") ProductService productService, AuthCommons authCommons)
     {
         this.productService=productService;
+        this.authCommons=authCommons;
     }
     @GetMapping()
     public List<ProductDTO> getAllProducts()
@@ -30,9 +34,11 @@ public class ProductController {
     }
 
     @GetMapping("/{id}")
-    public ProductDTO getProductById(@PathVariable("id") Long id) throws ProductNotFoundException {
-
-    return productService.getProductById(id);
+    public ProductDTO getProductById(@PathVariable("id") Long id,@RequestHeader("token") String tokenValue) throws ProductNotFoundException {
+        UserDto userDto=authCommons.validateToken(tokenValue);
+        if(userDto!=null)
+            return productService.getProductById(id);
+        return null;
 
     }
 

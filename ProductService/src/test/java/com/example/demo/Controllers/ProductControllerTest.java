@@ -29,7 +29,7 @@ class ProductControllerTest {
     void validProductById()  throws ProductNotFoundException {
     ProductDTO product=new ProductDTO("MacBook","Laptop",150000.00,"image","Apple");
     when(productService.getProductById(1L)).thenReturn(product);
-    ProductDTO actualProduct=productController.getProductById(1L);
+    ProductDTO actualProduct=productController.getProductById(1L,"token");
     assertEquals(product,actualProduct);
     }
 
