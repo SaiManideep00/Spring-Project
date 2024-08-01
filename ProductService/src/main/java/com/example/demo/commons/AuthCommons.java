@@ -14,7 +14,7 @@ public class AuthCommons {
     }
     public UserDto validateToken(String tokenValue)
     {
-        ResponseEntity<UserDto> responseEntity=restTemplate.getForEntity("http://localhost:8080/users/validate/"+tokenValue, UserDto.class);
+        ResponseEntity<UserDto> responseEntity=restTemplate.getForEntity("http://localhost:9000/users/validate/"+tokenValue, UserDto.class);
         if(responseEntity.getBody()==null)
             return null;
         return responseEntity.getBody();

@@ -34,11 +34,9 @@ public class ProductController {
     }
 
     @GetMapping("/{id}")
-    public ProductDTO getProductById(@PathVariable("id") Long id,@RequestHeader("token") String tokenValue) throws ProductNotFoundException {
-        UserDto userDto=authCommons.validateToken(tokenValue);
-        if(userDto!=null)
-            return productService.getProductById(id);
-        return null;
+    public ProductDTO getProductById(@PathVariable("id") Long id) throws ProductNotFoundException {
+        ProductDTO productDTO= productService.getProductById(id);
+        return productDTO;
 
     }
 

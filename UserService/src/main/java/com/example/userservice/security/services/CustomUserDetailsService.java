@@ -4,10 +4,14 @@ import com.example.userservice.models.User;
 import com.example.userservice.repositories.UserRepository;
 import com.example.userservice.security.models.CustomGrantedAuthority;
 import com.example.userservice.security.models.CustomUserDetails;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.stereotype.Service;
 
+@JsonDeserialize
+@Service
 public class CustomUserDetailsService implements UserDetailsService {
     public CustomUserDetailsService(UserRepository userRepository)
     {
